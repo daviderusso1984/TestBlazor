@@ -1,0 +1,30 @@
+﻿@using System.Diagnostics
+
+@page "/"
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+@code
+{
+    private Stopwatch sw;
+
+
+    protected override void OnInitialized ()
+    {
+      sw = new Stopwatch ();
+      sw.Start ();
+    }
+
+    protected override void OnAfterRender (bool firstRender)
+    {
+        if (firstRender)
+          {
+            sw.Stop ();
+            Console.WriteLine ("Index = " + sw.ElapsedMilliseconds + " ms");
+          }
+    }
+}

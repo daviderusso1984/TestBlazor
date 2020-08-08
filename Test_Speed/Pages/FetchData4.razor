@@ -1,0 +1,62 @@
+@using System.Diagnostics
+
+@page "/fetchdata4"
+@inject HttpClient Http
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Temp. (C)</th>
+                <th>Temp. (F)</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < FetchData.LOOP; ++i){
+                @foreach (var forecast in forecasts)
+                {
+                    <TestRow forecast="@forecast" />
+                }
+            }
+           
+        </tbody>
+    </table>
+}
+
+@code {
+    public Stopwatch sw = null;
+
+
+    protected override void OnAfterRender (bool firstRender)
+    {
+        if (sw != null)
+          {
+            sw.Stop ();
+            Console.WriteLine ("Forecast (component) = " + sw.ElapsedMilliseconds + " ms");
+            sw = null;
+          }
+    }
+
+    private FetchData.WeatherForecast[] forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await Http.GetFromJsonAsync<FetchData.WeatherForecast[]>("sample-data/weather.json");
+        if (forecasts != null)
+            {
+                sw = new Stopwatch ();
+                sw.Start ();
+            }
+    }
+}

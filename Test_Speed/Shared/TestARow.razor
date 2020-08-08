@@ -1,0 +1,12 @@
+﻿<tr>
+            <TestDate Date="@forecast.Date" />
+            <TestTemp Celsius="@forecast.TemperatureC"      />
+            <TestTempF Celsius="@forecast.TemperatureF"  />
+            <TestText Text="@forecast.Summary" />
+        </tr>
+
+
+@code 
+{
+    [Parameter] public Pages.FetchData.WeatherForecast forecast { get; set; }
+}

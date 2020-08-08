@@ -1,0 +1,38 @@
+﻿@using System.Diagnostics
+
+@page "/counter"
+
+<h1>Counter</h1>
+
+<p>Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+
+    private Stopwatch sw;
+
+
+    protected override void OnInitialized ()
+    {
+      sw = new Stopwatch ();
+      sw.Start ();
+    }
+
+    protected override void OnAfterRender (bool firstRender)
+    {
+        if (firstRender)
+          {
+            sw.Stop ();
+            Console.WriteLine ("Counter = " + sw.ElapsedMilliseconds + " ms");
+          }
+    }
+
+
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}
